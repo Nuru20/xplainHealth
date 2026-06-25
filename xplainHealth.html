@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XplainHealth — Making AI health Tools explainable and accessible</title>
+<meta name="description" content="Mwana AI builds explainable AI screening tools for child malnutrition in Uganda — connecting village health workers to district health officers in real time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0f0d;--ink-soft:#374840;--ink-muted:#718f82;
+  --paper:#f8faf8;--paper-warm:#f0f5f1;--rule:#d8e8dc;
+  --green:#1a6b4a;--green-mid:#2d8f63;--green-light:#e4f2ea;--green-pale:#f0f8f3;
+  --gold:#b8750a;--gold-light:#fdf4e3;
+  --red:#b03030;--red-light:#fef0f0;
+  --white:#ffffff;
+  --display:'DM Serif Display',Georgia,serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --max:1080px;--gap:clamp(1.2rem,4vw,2.8rem);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,250,248,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--gap)}
+.nav-logo{display:flex;align-items:center;gap:0.6rem;text-decoration:none}
+.nav-logo-mark{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1rem;color:white;font-style:italic}
+.nav-logo-text{font-family:var(--display);font-size:1.1rem;color:var(--ink)}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{font-size:0.82rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--green)}
+.nav-cta{background:var(--green);color:white;padding:0.45rem 1.1rem;border-radius:4px;font-size:0.8rem;font-weight:600;text-decoration:none;letter-spacing:0.03em;transition:background 0.2s}
+.nav-cta:hover{background:var(--green-mid)}
+
+/* LAYOUT */
+main{padding-top:58px}
+.section{padding:clamp(3rem,8vw,6rem) var(--gap)}
+.container{max-width:var(--max);margin:0 auto}
+.alt{background:var(--paper-warm)}
+.dark{background:var(--ink);color:white}
+
+/* HERO */
+.hero{min-height:calc(100vh - 58px);display:flex;align-items:center;background:linear-gradient(160deg,var(--green-pale) 0%,var(--paper) 60%)}
+.hero-inner{max-width:var(--max);margin:0 auto;padding:clamp(2rem,6vw,5rem) var(--gap);display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.hero-kicker{font-family:var(--mono);font-size:0.72rem;color:var(--green);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:0.6rem}
+.hero-kicker::before{content:'';display:inline-block;width:28px;height:2px;background:var(--green)}
+.hero h1{font-family:var(--display);font-size:clamp(2.8rem,5.5vw,4.2rem);line-height:1.06;color:var(--ink);letter-spacing:-0.025em;margin-bottom:1.4rem}
+.hero h1 em{font-style:italic;color:var(--green)}
+.hero-sub{font-size:1.05rem;color:var(--ink-soft);line-height:1.8;margin-bottom:2rem;max-width:460px}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.8rem 1.6rem;font-size:0.88rem;font-weight:600;text-decoration:none;border-radius:5px;transition:all 0.2s;letter-spacing:0.02em}
+.btn-green{background:var(--green);color:white;border:2px solid var(--green)}
+.btn-green:hover{background:var(--green-mid);border-color:var(--green-mid)}
+.btn-outline{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn-outline:hover{background:var(--ink);color:white}
+.hero-visual{display:flex;flex-direction:column;gap:1rem}
+.card{background:white;border:1px solid var(--rule);border-radius:10px;padding:1.4rem 1.6rem;box-shadow:0 2px 16px rgba(0,0,0,0.05);transition:transform 0.2s,box-shadow 0.2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,0.08)}
+.card-label{font-family:var(--mono);font-size:0.66rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:0.35rem}
+.card-value{font-family:var(--display);font-size:2.2rem;line-height:1;margin-bottom:0.3rem}
+.card-value.g{color:var(--green)}
+.card-value.gold{color:var(--gold)}
+.card-desc{font-size:0.8rem;color:var(--ink-muted);line-height:1.45}
+.live-pill{display:inline-flex;align-items:center;gap:0.35rem;font-family:var(--mono);font-size:0.66rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);background:var(--green-light);padding:0.18rem 0.55rem;border-radius:20px;margin-top:0.5rem}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.25}}
+
+/* PROBLEM */
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
+.problem-text h2{font-family:var(--display);font-size:clamp(1.9rem,3.5vw,2.8rem);line-height:1.12;color:white;letter-spacing:-0.02em;margin-bottom:1.2rem}
+.problem-text p{font-size:0.98rem;color:rgba(255,255,255,0.75);line-height:1.8;margin-bottom:0.9rem}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);border-radius:8px;overflow:hidden;margin-top:1.5rem}
+.stat-box{padding:1.4rem 1.2rem;background:rgba(255,255,255,0.04)}
+.stat-box-val{font-family:var(--display);font-size:2rem;color:var(--green-mid);line-height:1}
+.stat-box-label{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:0.3rem;line-height:1.4}
+.problem-visual{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:1.8rem}
+.prob-item{display:flex;gap:1rem;align-items:flex-start;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.prob-item:last-child{border-bottom:none;padding-bottom:0}
+.prob-icon{font-size:1.5rem;flex-shrink:0;margin-top:0.1rem}
+.prob-text h4{font-size:0.92rem;font-weight:600;color:white;margin-bottom:0.3rem}
+.prob-text p{font-size:0.82rem;color:rgba(255,255,255,0.55);line-height:1.5}
+
+/* SECTION HEADER */
+.sh{margin-bottom:clamp(2rem,4vw,3.5rem)}
+.sh-eye{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem}
+.sh-eye::before{content:'';display:inline-block;width:18px;height:2px;background:var(--green)}
+.sh h2{font-family:var(--display);font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.12;color:var(--ink);letter-spacing:-0.02em}
+.sh p{margin-top:0.7rem;font-size:0.98rem;color:var(--ink-soft);max-width:580px}
+
+/* SOLUTION / TOOLS */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
+.tool-card{background:white;border:1px solid var(--rule);border-radius:10px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column}
+.tool-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.08)}
+.tool-top{padding:1.6rem 1.6rem 1.2rem;flex:1}
+.tool-icon{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
+.ti-green{background:var(--green-light)}
+.ti-gold{background:var(--gold-light)}
+.ti-blue{background:#edf3fb}
+.tool-name{font-family:var(--display);font-size:1.15rem;color:var(--ink);margin-bottom:0.45rem;line-height:1.2}
+.tool-desc{font-size:0.86rem;color:var(--ink-soft);line-height:1.65}
+.tool-tags{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.9rem}
+.ttag{font-family:var(--mono);font-size:0.65rem;padding:0.2rem 0.55rem;border:1px solid var(--rule);border-radius:3px;color:var(--ink-muted)}
+.tool-bottom{padding:0.9rem 1.6rem;border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between}
+.tool-url{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);text-decoration:none}
+.tool-url:hover{color:var(--green)}
+
+/* HOW IT WORKS */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.flow-step{background:white;padding:1.8rem 1.4rem;position:relative}
+.flow-num{font-family:var(--display);font-style:italic;font-size:3rem;color:var(--green-light);line-height:1;margin-bottom:0.6rem}
+.flow-title{font-size:0.92rem;font-weight:700;color:var(--ink);margin-bottom:0.4rem}
+.flow-desc{font-size:0.8rem;color:var(--ink-muted);line-height:1.55}
+.flow-arrow{position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:24px;height:24px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;z-index:1}
+
+/* IMPACT */
+.impact-band{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.impact-box{background:white;padding:1.8rem 1.2rem;text-align:center}
+.impact-val{font-family:var(--display);font-size:2.4rem;line-height:1;color:var(--green);margin-bottom:0.35rem}
+.impact-lbl{font-size:0.78rem;color:var(--ink-muted);line-height:1.4}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem}
+.team-card{background:white;border:1px solid var(--rule);border-radius:10px;padding:1.8rem;transition:box-shadow 0.2s}
+.team-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.07)}
+.team-avatar{width:56px;height:56px;border-radius:12px;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.4rem;color:white;margin-bottom:1rem}
+.team-name{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.2rem}
+.team-role{font-size:0.8rem;color:var(--green);font-weight:500;margin-bottom:0.7rem}
+.team-bio{font-size:0.82rem;color:var(--ink-soft);line-height:1.6}
+.team-affil{display:inline-block;margin-top:0.7rem;font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);background:var(--paper-warm);padding:0.2rem 0.6rem;border-radius:3px}
+
+/* TRACTION */
+.traction-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.traction-card{background:white;border:1px solid var(--rule);border-radius:10px;padding:1.6rem}
+.traction-title{font-size:0.85rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:1rem;font-family:var(--mono)}
+.traction-list{display:flex;flex-direction:column;gap:0.6rem}
+.traction-item{display:flex;align-items:flex-start;gap:0.7rem;font-size:0.86rem;color:var(--ink-soft);line-height:1.5}
+.traction-check{color:var(--green);font-weight:700;flex-shrink:0;margin-top:0.1rem}
+
+/* CONTACT */
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:start}
+.contact-left h2{font-family:var(--display);font-size:clamp(1.8rem,3vw,2.4rem);color:var(--ink);margin-bottom:1rem;line-height:1.15}
+.contact-left p{font-size:0.95rem;color:var(--ink-soft);line-height:1.8;margin-bottom:1.2rem}
+.collab-box{background:var(--green-light);border:1px solid rgba(26,107,74,0.2);border-radius:8px;padding:1.2rem 1.4rem}
+.collab-box h4{font-size:0.85rem;font-weight:700;color:var(--green);margin-bottom:0.4rem}
+.collab-box p{font-size:0.82rem;color:var(--ink-soft);line-height:1.6;margin:0}
+.contact-links{display:flex;flex-direction:column;gap:0.7rem}
+.clink{display:flex;align-items:center;gap:0.9rem;padding:0.95rem 1.1rem;background:white;border:1px solid var(--rule);border-radius:7px;text-decoration:none;transition:all 0.2s}
+.clink:hover{border-color:var(--green);background:var(--green-pale);transform:translateX(4px)}
+.clink-icon{width:36px;height:36px;border-radius:7px;background:var(--paper-warm);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.clink-text strong{display:block;font-size:0.84rem;font-weight:600;color:var(--ink)}
+.clink-text span{font-size:0.76rem;color:var(--ink-muted)}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,0.6);padding:2.5rem var(--gap)}
+.footer-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-family:var(--display);font-size:1.1rem;color:white}
+.footer-tagline{font-size:0.8rem;margin-top:0.2rem}
+.footer-links{display:flex;gap:1.4rem}
+.footer-links a{font-size:0.78rem;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--green-mid)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr}
+  .problem-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  .flow-arrow{display:none}
+  .impact-band{grid-template-columns:repeat(3,1fr)}
+  .traction-grid{grid-template-columns:1fr}
+  .contact-inner{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">M</div>
+    <span class="nav-logo-text">Mwana AI</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#solution">Solution</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:hello@mwanaai.org" class="nav-cta">Get in Touch</a>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-kicker">Mwana AI — Uganda</div>
+      <h1>Protecting every <em>child</em> with explainable AI</h1>
+      <p class="hero-sub">Mwana AI builds open-source AI screening tools that identify children at risk of stunting in Uganda — connecting village health workers to district health officers through a live shared database.</p>
+      <div class="hero-btns">
+        <a href="https://malnutrition-tool.streamlit.app" target="_blank" class="btn btn-green">Try the Tool ↗</a>
+        <a href="#solution" class="btn btn-outline">How it works</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="card reveal">
+        <div class="card-label">Model Performance</div>
+        <div class="card-value g">0.704</div>
+        <div class="card-desc">AUC-ROC — XGBoost with sibling-aware cross-validation on Uganda DHS 2016 (4,530 children)</div>
+        <div class="live-pill"><span class="live-dot"></span> Both tools live</div>
+      </div>
+      <div class="card reveal" style="transition-delay:0.1s">
+        <div class="card-label">Children Screened in Training</div>
+        <div class="card-value gold">4,530</div>
+        <div class="card-desc">693 survey clusters · 3,194 mothers · All four Uganda regions · Zero sibling leakage</div>
+      </div>
+      <div class="card reveal" style="transition-delay:0.2s">
+        <div class="card-label">Stunting Recall at Threshold</div>
+        <div class="card-value">77.4%</div>
+        <div class="card-desc">Model catches 3 in 4 stunted children — at threshold optimised for community screening</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section dark">
+  <div class="container">
+    <div class="problem-grid">
+      <div class="problem-text reveal">
+        <h2>1 in 3 Ugandan children is stunted. Most go undetected until it is too late.</h2>
+        <p>Stunting — being too short for one's age — affects 28.4% of Ugandan children under five. Its consequences are irreversible: impaired brain development, lower school performance, reduced lifetime income, and the cycle repeating through the next generation.</p>
+        <p>The problem is not that stunting cannot be prevented. The problem is that at-risk children are not identified early enough for intervention to work. Village Health Team workers — Uganda's frontline community health cadre — have no practical tool for stunting risk screening.</p>
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-box-val">28.4%</div><div class="stat-box-label">Stunting prevalence Uganda — 1 in 3.5 children</div></div>
+          <div class="stat-box"><div class="stat-box-val">3.6×</div><div class="stat-box-label">Higher risk for children of uneducated mothers</div></div>
+          <div class="stat-box"><div class="stat-box-val">2025</div><div class="stat-box-label">UNAP target: reduce stunting to 19% — not on track</div></div>
+          <div class="stat-box"><div class="stat-box-val">170K</div><div class="stat-box-label">VHT workers in Uganda with no stunting screening tool</div></div>
+        </div>
+      </div>
+      <div class="problem-visual reveal" style="transition-delay:0.15s">
+        <div class="prob-item">
+          <div class="prob-icon">⏱️</div>
+          <div class="prob-text"><h4>The window closes at 24 months</h4><p>Stunting that develops in the first 1,000 days is largely irreversible. Current systems miss children until they reach a health facility — often years too late.</p></div>
+        </div>
+        <div class="prob-item">
+          <div class="prob-icon">📏</div>
+          <div class="prob-text"><h4>MUAC cannot detect stunting</h4><p>The only community screening tool — the MUAC tape — measures acute wasting, not chronic stunting. Village health workers have no way to flag stunting risk.</p></div>
+        </div>
+        <div class="prob-item">
+          <div class="prob-icon">📡</div>
+          <div class="prob-text"><h4>No data reaches the DHO</h4><p>District Health Officers make resource allocation decisions with no real-time data on where stunting risk is highest in their district.</p></div>
+        </div>
+        <div class="prob-item">
+          <div class="prob-icon">🌍</div>
+          <div class="prob-text"><h4>Northern Uganda most affected</h4><p>Post-conflict communities in Northern Uganda have stunting rates exceeding 40% — but receive interventions based on historical averages, not live data.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution" class="section alt">
+  <div class="container">
+    <div class="sh reveal">
+      <div class="sh-eye">Our Solution</div>
+      <h2>A two-tier AI system — from village to district</h2>
+      <p>Mwana AI connects community screening by VHT workers to real-time district-level monitoring — all powered by open-source explainable AI.</p>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card reveal">
+        <div class="tool-top">
+          <div class="tool-icon ti-green">📱</div>
+          <div class="tool-name">VHT Community Screening App</div>
+          <div class="tool-desc">Six-input mobile Progressive Web App for Village Health Team workers. Works completely offline after first load. The XGBoost model runs entirely in the browser — no server, no connectivity required. Installs on any Android phone from the browser in one tap. MUAC acts as a clinical safety override for severe acute malnutrition.</div>
+          <div class="tool-tags">
+            <span class="ttag">Offline-first PWA</span>
+            <span class="ttag">6 inputs</span>
+            <span class="ttag">Android</span>
+            <span class="ttag">MUAC override</span>
+            <span class="ttag">Open source</span>
+          </div>
+        </div>
+        <div class="tool-bottom">
+          <a href="https://nuru20.github.io/community-malnutrition-app" target="_blank" class="tool-url">nuru20.github.io/community-malnutrition-app ↗</a>
+          <div class="live-pill"><span class="live-dot"></span> Live</div>
+        </div>
+      </div>
+      <div class="tool-card reveal" style="transition-delay:0.1s">
+        <div class="tool-top">
+          <div class="tool-icon ti-gold">🔬</div>
+          <div class="tool-name">Research & Clinical Dashboard</div>
+          <div class="tool-desc">Full 19-input stunting risk predictor for researchers, clinicians, and District Health Officers. Shows SHAP waterfall charts explaining every prediction in plain language, a risk gauge, and a population monitoring tab displaying live VHT screenings from across the district in real time.</div>
+          <div class="tool-tags">
+            <span class="ttag">19 inputs</span>
+            <span class="ttag">SHAP explainability</span>
+            <span class="ttag">Population tab</span>
+            <span class="ttag">Streamlit</span>
+            <span class="ttag">Python 3.11</span>
+          </div>
+        </div>
+        <div class="tool-bottom">
+          <a href="https://malnutrition-tool.streamlit.app" target="_blank" class="tool-url">malnutrition-tool.streamlit.app ↗</a>
+          <div class="live-pill"><span class="live-dot"></span> Live</div>
+        </div>
+      </div>
+      <div class="tool-card reveal" style="transition-delay:0.2s">
+        <div class="tool-top">
+          <div class="tool-icon ti-blue">🗄️</div>
+          <div class="tool-name">Shared Live Database</div>
+          <div class="tool-desc">Both tools write every screening to a single Supabase PostgreSQL database. The source column identifies whether each record came from a VHT community visit or a clinical assessment. District Health Officers see all screenings from both tools in the research dashboard Tab 2 — updated in real time.</div>
+          <div class="tool-tags">
+            <span class="ttag">Supabase</span>
+            <span class="ttag">PostgreSQL</span>
+            <span class="ttag">Real-time</span>
+            <span class="ttag">District monitoring</span>
+          </div>
+        </div>
+        <div class="tool-bottom">
+          <a href="https://github.com/Nuru20" target="_blank" class="tool-url">github.com/Nuru20 ↗</a>
+          <div class="live-pill"><span class="live-dot"></span> Live</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="container">
+    <div class="sh reveal">
+      <div class="sh-eye">How It Works</div>
+      <h2>From village visit to district intelligence</h2>
+    </div>
+    <div class="flow reveal">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-title">VHT screens child</div>
+        <div class="flow-desc">Village Health Team worker opens the app on their phone. Enters 6 simple inputs — child age, sex, MUAC, whether mother can read, children under 5, and distance to clinic.</div>
+        <div class="flow-arrow">→</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-title">AI predicts risk</div>
+        <div class="flow-desc">XGBoost model runs in the browser — no internet needed. Shows GREEN, YELLOW, or RED result instantly. MUAC below 115mm always triggers RED regardless of the model.</div>
+        <div class="flow-arrow">→</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-title">Record saved</div>
+        <div class="flow-desc">When internet is available the screening saves to the shared database. District, VHT code, risk level, and probability are all stored — building a live picture of risk across the community.</div>
+        <div class="flow-arrow">→</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-title">DHO sees patterns</div>
+        <div class="flow-desc">The District Health Officer opens the Research Dashboard Tab 2. Sees total screenings, high-risk percentages, district breakdowns, and trends — enabling targeted resource allocation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact" class="section alt">
+  <div class="container">
+    <div class="sh reveal">
+      <div class="sh-eye">Traction & Evidence</div>
+      <h2>Built on real data. Validated against national figures.</h2>
+    </div>
+    <div class="impact-band reveal" style="margin-bottom:2rem">
+      <div class="impact-box"><div class="impact-val">4,530</div><div class="impact-lbl">Children in training dataset — Uganda DHS 2016</div></div>
+      <div class="impact-box"><div class="impact-val">0.704</div><div class="impact-lbl">AUC-ROC with sibling-aware cross-validation</div></div>
+      <div class="impact-box"><div class="impact-val">77.4%</div><div class="impact-lbl">Stunted children correctly identified</div></div>
+      <div class="impact-box"><div class="impact-val">2</div><div class="impact-lbl">Live deployed tools — open source</div></div>
+      <div class="impact-box"><div class="impact-val">0</div><div class="impact-lbl">Mother overlap train/test — sibling-aware split</div></div>
+    </div>
+    <div class="traction-grid reveal">
+      <div class="traction-card">
+        <div class="traction-title">✓ What We Have Built</div>
+        <div class="traction-list">
+          <div class="traction-item"><span class="traction-check">✓</span>VHT Community App live — offline-capable PWA</div>
+          <div class="traction-item"><span class="traction-check">✓</span>Research Dashboard live — SHAP explainability</div>
+          <div class="traction-item"><span class="traction-check">✓</span>Shared Supabase database — both tools writing</div>
+          <div class="traction-item"><span class="traction-check">✓</span>Both tools open source on GitHub</div>
+          <div class="traction-item"><span class="traction-check">✓</span>Model validated against UDHS 2016 published figures</div>
+          <div class="traction-item"><span class="traction-check">✓</span>2 journal papers under review — BMJ Global Health and BMJ Digital Health</div>
+          <div class="traction-item"><span class="traction-check">✓</span>Novel sibling-aware cross-validation methodology</div>
+          <div class="traction-item"><span class="traction-check">✓</span>Interaction features improve AUC by +0.019</div>
+        </div>
+      </div>
+      <div class="traction-card">
+        <div class="traction-title">→ What We Are Doing Next</div>
+        <div class="traction-list">
+          <div class="traction-item"><span style="color:var(--gold);font-weight:700">→</span>Uganda field pilot — 25 health workers across Uganda</div>
+          <div class="traction-item"><span style="color:var(--gold);font-weight:700">→</span>Meeting Makerere School of Public Health</div>
+          <div class="traction-item"><span style="color:var(--gold);font-weight:700">→</span>Meeting Uganda Ministry of Health nutrition division</div>
+          <div class="traction-item"><span style="color:var(--gold);font-weight:700">→</span>Requesting District Health Officer letter of support</div>
+          <div class="traction-item"><span style="color:var(--gold);font-weight:700">→</span>Retraining model on UDHS 2022 when data arrives</div>
+          <div class="traction-item"><span style="color:var(--gold);font-weight:700">→</span>Adding underweight and wasting prediction models</div>
+          <div class="traction-item"><span style="color:var(--gold);font-weight:700">→</span>Scaling to 3 Uganda districts with funding</div>
+          <div class="traction-item"><span style="color:var(--gold);font-weight:700">→</span>Expanding to Kenya and Tanzania DHS data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="section">
+  <div class="container">
+    <div class="sh reveal">
+      <div class="sh-eye">Team</div>
+      <h2>Built by researchers who understand both the technology and the field</h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-avatar">N</div>
+        <div class="team-name">Nabuuso Nuru</div>
+        <div class="team-role">Founder & Lead Researcher</div>
+        <div class="team-bio">Computer Science PhD researcher specialising in explainable AI. Designed and built both screening tools, the machine learning model, the SHAP explainability pipeline, and the shared database architecture. Ugandan — with direct field access and cultural understanding of the communities the tools serve.</div>
+        <span class="team-affil">Universitat Pompeu Fabra, Barcelona</span>
+      </div>
+      <div class="team-card reveal" style="transition-delay:0.1s">
+        <div class="team-avatar">V</div>
+        <div class="team-name">Vladimir Estivill</div>
+        <div class="team-role">Research Supervisor & Co-Author</div>
+        <div class="team-bio">Professor of Computer Science at Universitat Pompeu Fabra. Provides methodological supervision, research strategy guidance, and academic co-authorship. Deep expertise in machine learning and pattern recognition applied to real-world problems.</div>
+        <span class="team-affil">Universitat Pompeu Fabra, Barcelona</span>
+      </div>
+      <div class="team-card reveal" style="transition-delay:0.2s">
+        <div class="team-avatar">+</div>
+        <div class="team-name">Uganda Partners</div>
+        <div class="team-role">In Development</div>
+        <div class="team-bio">We are actively building partnerships with Makerere University School of Public Health, Uganda Ministry of Health nutrition division, and District Health Officers for field validation, pilot study execution, and long-term deployment support.</div>
+        <span class="team-affil">Makerere University SPH — in progress</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section alt">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <h2>Partner with us to protect Uganda's children</h2>
+        <p>We are seeking research collaborators, institutional partners in Uganda, and funding to scale the tools to district level across three Uganda regions. If you work in global health, nutrition, AI for social good, community health, or international development — we want to hear from you.</p>
+        <div class="collab-box">
+          <h4>🤝 We are open to</h4>
+          <p>Research partnerships · Uganda MoH and NGO collaborations · Grant co-applicants · Pilot study partners · Conference invitations · Speaking opportunities · Investor conversations</p>
+        </div>
+      </div>
+      <div class="contact-links reveal" style="transition-delay:0.15s">
+        <a href="mailto:nuru.nabuuso@upf.edu" class="clink">
+          <div class="clink-icon">✉️</div>
+          <div class="clink-text"><strong>Email the Founder</strong><span>nuru.nabuuso@upf.edu</span></div>
+        </a>
+        <a href="https://malnutrition-tool.streamlit.app" target="_blank" class="clink">
+          <div class="clink-icon">🔬</div>
+          <div class="clink-text"><strong>Try the Research Dashboard</strong><span>malnutrition-tool.streamlit.app</span></div>
+        </a>
+        <a href="https://nuru20.github.io/community-malnutrition-app" target="_blank" class="clink">
+          <div class="clink-icon">📱</div>
+          <div class="clink-text"><strong>Try the VHT Community App</strong><span>nuru20.github.io/community-malnutrition-app</span></div>
+        </a>
+        <a href="https://github.com/Nuru20" target="_blank" class="clink">
+          <div class="clink-icon">⚡</div>
+          <div class="clink-text"><strong>View Source Code on GitHub</strong><span>github.com/Nuru20 — fully open source</span></div>
+        </a>
+        <a href="https://Nuru20.github.io" target="_blank" class="clink">
+          <div class="clink-icon">👤</div>
+          <div class="clink-text"><strong>Researcher Profile</strong><span>Nuru20.github.io — publications and background</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Mwana AI</div>
+      <div class="footer-tagline">Protecting every child with explainable AI · Uganda</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://malnutrition-tool.streamlit.app" target="_blank">Research Tool</a>
+      <a href="https://nuru20.github.io/community-malnutrition-app" target="_blank">VHT App</a>
+      <a href="https://github.com/Nuru20" target="_blank">GitHub</a>
+      <a href="mailto:nuru.nabuuso@upf.edu">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, {threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+const secs = document.querySelectorAll('section[id]');
+const navAs = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if(window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navAs.forEach(a => { a.style.color = a.getAttribute('href')==='#'+cur ? 'var(--green)' : ''; });
+});
+</script>
+</body>
+</html>
