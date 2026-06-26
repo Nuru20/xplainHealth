@@ -3,215 +3,495 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XplainHealth — Explainable AI for Child Health Screening in Africa</title>
-<meta name="description" content="XplainHealth builds explainable AI screening tools for child malnutrition in Uganda — connecting village health workers to district health officers in real time.">
+<title>XplainHealth — Explainable AI for Community Health in Africa</title>
+<meta name="description" content="XplainHealth builds explainable AI tools for community health screening in Africa. Starting with child malnutrition in Uganda.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* XplainHealth colour system */
-  --blue:       #136ba6;   /* UNICEF-inspired primary */
-  --blue-mid:   #2589BF;   /* hover state */
-  --blue-dark:  #0A2540;   /* deep navy — headlines */
-  --blue-light: #5b6c76;   /* ice blue background */
-  --blue-pale:  #F5FAFD;   /* hero bg */
-  --teal:       #033932f6;   /* accent — differentiator */
-  --teal-light: #E6F7F5;   /* teal bg */
-  --ink:        #0D1B2A;
-  --ink-soft:   #3D5166;
-  --ink-muted:  #1e4162;
-  --paper:      #F8FBFD;
-  --paper-warm: #EFF5FA;
-  --rule:       #D4E6F1;
-  --white:      #FFFFFF;
-  --gold:       #C07A0A;
-  --gold-light: #FEF4E3;
-  --red:        #C0392B;
-  --red-light:  #FDECEA;
-
-  --display: 'DM Serif Display', Georgia, serif;
-  --body:    'Inter', system-ui, sans-serif;
-  --mono:    'JetBrains Mono', monospace;
-  --max:     1080px;
-  --gap:     clamp(1.2rem,4vw,2.8rem);
+  --g900:#071a0f;
+  --g800:#0e2d1a;
+  --g700:#1a4d2e;
+  --g600:#1a6b4a;
+  --g500:#2d8f63;
+  --g400:#48b07e;
+  --g200:#a8d8be;
+  --g100:#d4edd9;
+  --g50:#eef8f1;
+  --g25:#f5fcf7;
+  --gold:#b8750a;
+  --gold-l:#fdf4e3;
+  --ink:#071a0f;
+  --ink-2:#2a4838;
+  --ink-3:#4a7060;
+  --ink-4:#7a9e8e;
+  --paper:#f7fcf8;
+  --paper-2:#eef6f1;
+  --paper-3:#e4f0e8;
+  --white:#ffffff;
+  --rule:#c8e4d0;
+  --rule-2:#deeee3;
+  --display:'DM Serif Display',Georgia,serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --max:1100px;
+  --gap:clamp(1.4rem,4vw,3rem);
+  --r:10px;
+  --r-sm:6px;
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,251,253,0.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--gap)}
-.nav-logo{display:flex;align-items:center;gap:0.7rem;text-decoration:none}
-.nav-logo-mark{width:34px;height:34px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-family:var(--display);font-style:italic;font-size:1rem;letter-spacing:-0.02em}
-.nav-logo-name{font-family:var(--display);font-size:1.15rem;color:var(--ink)}
-.nav-logo-name span{color:var(--blue)}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(247,252,248,0.96);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--rule-2);
+  height:62px;display:flex;align-items:center;
+  justify-content:space-between;padding:0 var(--gap)
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{
+  width:36px;height:36px;border-radius:9px;
+  background:var(--g600);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-style:italic;
+  font-size:1.15rem;color:white;letter-spacing:-0.02em
+}
+.logo-name{font-family:var(--display);font-size:1.2rem;color:var(--ink);letter-spacing:-0.01em}
+.logo-name span{color:var(--g600)}
 .nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{font-size:0.81rem;font-weight:500;letter-spacing:0.055em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;transition:color 0.2s}
-.nav-links a:hover,.nav-links a.active{color:var(--blue)}
-.nav-btn{background:var(--blue);color:white;padding:0.46rem 1.15rem;border-radius:5px;font-size:0.8rem;font-weight:600;text-decoration:none;letter-spacing:0.03em;transition:background 0.2s}
-.nav-btn:hover{background:var(--blue-mid)}
+.nav-links a{
+  font-size:0.79rem;font-weight:500;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--ink-3);text-decoration:none;transition:color 0.2s
+}
+.nav-links a:hover{color:var(--g600)}
+.nav-cta{
+  background:var(--g600);color:white;
+  padding:0.48rem 1.2rem;border-radius:var(--r-sm);
+  font-size:0.79rem;font-weight:600;text-decoration:none;
+  letter-spacing:0.03em;transition:background 0.2s
+}
+.nav-cta:hover{background:var(--g500)}
 
 /* ── LAYOUT ── */
-main{padding-top:60px}
-.section{padding:clamp(3rem,8vw,6rem) var(--gap)}
-.container{max-width:var(--max);margin:0 auto}
-.alt{background:var(--paper-warm)}
-.dark{background:var(--blue-dark);color:white}
-.teal-bg{background:var(--teal-light)}
+main{padding-top:62px}
+.section{padding:clamp(4rem,9vw,7rem) var(--gap)}
+.wrap{max-width:var(--max);margin:0 auto}
+.alt{background:var(--paper-2)}
+.dark{background:var(--g800)}
 
 /* ── HERO ── */
-.hero{min-height:calc(100vh - 60px);display:flex;align-items:center;background:linear-gradient(150deg,var(--blue-pale) 0%,var(--paper) 55%);border-bottom:1px solid var(--rule)}
-.hero-inner{max-width:var(--max);margin:0 auto;padding:clamp(2rem,6vw,5rem) var(--gap);display:grid;grid-template-columns:1.1fr 0.9fr;gap:3.5rem;align-items:center}
-.hero-kicker{font-family:var(--mono);font-size:0.1rem;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:0.65rem}
-.hero-kicker::before{content:'';display:inline-block;width:28px;height:2px;background:var(--blue)}
-h1.hero-title{font-family:var(--display);font-size:clamp(2.8rem,5.5vw,4.4rem);line-height:1.06;color:var(--blue-dark);letter-spacing:-0.025em;margin-bottom:1.4rem}
-h1.hero-title em{font-style:italic;color:var(--blue)}
-.hero-sub{font-size:1.05rem;color:var(--ink-soft);line-height:1.8;margin-bottom:2rem;max-width:480px}
-.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
-.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.82rem 1.7rem;font-size:0.88rem;font-weight:600;text-decoration:none;border-radius:5px;transition:all 0.2s;letter-spacing:0.02em}
-.btn-blue{background:var(--blue);color:white;border:2px solid var(--blue)}
-.btn-blue:hover{background:var(--blue-mid);border-color:var(--blue-mid)}
-.btn-outline{background:transparent;color:var(--ink);border:2px solid var(--rule)}
-.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
-.hero-trust{display:flex;align-items:center;gap:0.6rem;font-size:0.78rem;color:var(--ink-muted)}
-.hero-trust::before{content:'🏛';font-size:0.9rem}
-
-/* hero cards */
-.hero-cards{display:flex;flex-direction:column;gap:0.9rem}
-.hcard{background:white;border:1px solid var(--rule);border-radius:10px;padding:1.3rem 1.5rem;box-shadow:0 2px 14px rgba(152, 176, 192, 0.07);transition:transform 0.2s,box-shadow 0.2s}
-.hcard:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(29,111,164,0.12)}
-.hcard-label{font-family:var(--mono);font-size:0.65rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:0.3rem}
-.hcard-value{font-family:var(--display);font-size:2.2rem;line-height:1;margin-bottom:0.28rem}
-.hcard-value.blue{color:var(--blue)}
-.hcard-value.teal{color:var(--teal)}
-.hcard-value.dark{color:var(--blue-dark)}
-.hcard-desc{font-size:0.78rem;color:var(--ink-muted);line-height:1.45}
-.live-pill{display:inline-flex;align-items:center;gap:0.35rem;font-family:var(--mono);font-size:0.64rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);background:var(--teal-light);padding:0.18rem 0.55rem;border-radius:20px;margin-top:0.5rem}
-.live-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);animation:blink 2s infinite}
+.hero{
+  min-height:calc(100vh - 62px);
+  display:flex;align-items:center;
+  background:var(--g25);
+  border-bottom:1px solid var(--rule-2);
+  position:relative;overflow:hidden
+}
+.hero-blob-1{
+  position:absolute;top:-140px;right:-100px;
+  width:520px;height:520px;border-radius:50%;
+  background:var(--g50);pointer-events:none
+}
+.hero-blob-2{
+  position:absolute;bottom:-100px;left:-80px;
+  width:360px;height:360px;border-radius:50%;
+  background:var(--g100);opacity:0.5;pointer-events:none
+}
+.hero-inner{
+  max-width:var(--max);margin:0 auto;
+  padding:clamp(2.5rem,6vw,5rem) var(--gap);
+  display:grid;grid-template-columns:1.1fr 0.9fr;
+  gap:4rem;align-items:center;position:relative;z-index:1
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:0.7rem;
+  color:var(--g600);letter-spacing:0.13em;text-transform:uppercase;
+  background:var(--g50);border:1px solid var(--g100);
+  padding:0.28rem 0.85rem;border-radius:20px;margin-bottom:1.4rem
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--g500);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+h1.hero-h1{
+  font-family:var(--display);
+  font-size:clamp(2.8rem,5.5vw,4.4rem);
+  line-height:1.06;color:var(--g900);
+  letter-spacing:-0.03em;margin-bottom:1.4rem
+}
+h1.hero-h1 em{font-style:italic;color:var(--g600)}
+.hero-sub{
+  font-size:1.05rem;color:var(--ink-2);
+  line-height:1.85;margin-bottom:2.2rem;max-width:490px
+}
+.hero-btns{display:flex;gap:0.9rem;flex-wrap:wrap;margin-bottom:2rem}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:0.84rem 1.8rem;font-size:0.88rem;font-weight:600;
+  text-decoration:none;border-radius:var(--r-sm);
+  transition:all 0.2s;letter-spacing:0.02em
+}
+.btn-p{background:var(--g600);color:white;border:2px solid var(--g600)}
+.btn-p:hover{background:var(--g500);border-color:var(--g500);transform:translateY(-1px)}
+.btn-s{background:white;color:var(--ink);border:2px solid var(--rule)}
+.btn-s:hover{border-color:var(--g600);color:var(--g600);transform:translateY(-1px)}
+.hero-meta{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:0.72rem;color:var(--ink-4);
+  letter-spacing:0.04em
+}
+.meta-sep{color:var(--rule)}
 
-/* ── SECTION HEADER ── */
-.sh{margin-bottom:clamp(2rem,4vw,3.5rem)}
-.sh-eye{font-family:var(--mono);font-size:1rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.55rem}
-.sh-eye::before{content:'';display:inline-block;width:18px;height:2px;background:var(--blue)}
-.sh h2{font-family:var(--display);font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.12;color:var(--blue-dark);letter-spacing:-0.02em}
-.sh p{margin-top:0.75rem;font-size:0.98rem;color:var(--ink-soft);max-width:600px;line-height:1.75}
-
-/* ── PROBLEM ── */
-.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
-.problem-text h2{font-family:var(--display);font-size:clamp(1.9rem,3.5vw,2.8rem);line-height:1.1;color:white;letter-spacing:-0.02em;margin-bottom:1.2rem}
-.problem-text p{font-size:0.97rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:0.85rem}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:9px;overflow:hidden;margin-top:1.5rem}
-.stat-box{padding:1.3rem 1.1rem;background:rgba(255,255,255,0.04)}
-.stat-val{font-family:var(--display);font-size:2rem;color:#5BB8E8;line-height:1}
-.stat-lbl{font-size:0.77rem;color:rgba(255,255,255,0.45);margin-top:0.3rem;line-height:1.4}
-.prob-cards{display:flex;flex-direction:column;gap:0}
-.prob-card{display:flex;gap:1rem;align-items:flex-start;padding:1.1rem 1.4rem;border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);transition:background 0.2s}
-.prob-card:first-child{border-radius:9px 9px 0 0}
-.prob-card:last-child{border-bottom:none;border-radius:0 0 9px 9px}
-.prob-card:hover{background:rgba(255,255,255,0.06)}
-.prob-icon{font-size:1.4rem;flex-shrink:0;margin-top:0.1rem}
-.prob-body h4{font-size:0.9rem;font-weight:600;color:white;margin-bottom:0.2rem}
-.prob-body p{font-size:0.8rem;color:rgba(255,255,255,0.5);line-height:1.55}
-
-/* ── TOOLS ── */
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:1.4rem}
-.tool-card{background:white;border:1px solid var(--rule);border-radius:10px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column}
-.tool-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(191, 194, 195, 0.1)}
-.tool-top{padding:1.6rem 1.6rem 1.2rem;flex:1}
-.tool-icon{width:40px;height:0px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
-.ti-blue{background:var(--blue-light)}
-.ti-teal{background:var(--teal-light)}
-.ti-navy{background:#E8EEF5}
-.tool-name{font-family:var(--display);font-size:1.15rem;color:var(--blue-dark);margin-bottom:0.45rem;line-height:1.2}
-.tool-desc{font-size:0.85rem;color:var(--ink-soft);line-height:1.65}
-.tool-tags{display:flex;flex-wrap:wrap;gap:0.32rem;margin-top:0.9rem}
-.ttag{font-family:var(--mono);font-size:0.63rem;padding:0.22rem 0.6rem;border:1px solid var(--blue-light);border-radius:4px;color:var(--white);background:var(--gold);font-weight:500}
-.tool-bottom{padding:0.85rem 1.6rem;border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between}
-.tool-url{font-family:var(--mono);font-size:0.67rem;color:var(--ink-muted);text-decoration:none;letter-spacing:0.02em}
-.tool-url:hover{color:var(--blue)}
-
-/* ── HOW IT WORKS ── */
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
-.flow-step{background:white;padding:1.8rem 1.3rem;position:relative}
-.flow-num{font-family:var(--display);font-style:italic;font-size:3rem;color:var(--blue-50);line-height:1;font-weight:700}
-.flow-ico{font-size:1.4rem;width:38px;height:38px;border-radius:10px;background:var(--blue-50);border:1px solid var(--blue-100);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.flow-header{display:flex;align-items:center;gap:10px;margin-bottom:0.8rem}
-
-.flow-title{font-size:0.9rem;font-weight:700;color:var(--blue-dark);margin-bottom:0.35rem}
-.flow-desc{font-size:0.79rem;color:var(--ink-muted);line-height:1.6}
-.flow-arrow{position:absolute;right:-11px;top:50%;transform:translateY(-50%);width:22px;height:22px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:0.65rem;z-index:2}
+/* HERO STAT CARDS */
+.hero-cards{display:flex;flex-direction:column;gap:12px}
+.hcard{
+  background:white;border:1px solid var(--rule);
+  border-radius:var(--r);padding:1.3rem 1.5rem;
+  border-left:3px solid var(--g600);
+  box-shadow:0 2px 12px rgba(26,107,74,0.06);
+  transition:transform 0.2s,box-shadow 0.2s
+}
+.hcard:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,107,74,0.1)}
+.hcard-label{
+  font-family:var(--mono);font-size:0.63rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:0.11em;
+  color:var(--ink-4);margin-bottom:0.32rem
+}
+.hcard-val{
+  font-family:var(--display);font-size:2.3rem;
+  line-height:1;margin-bottom:0.3rem
+}
+.hv-green{color:var(--g600)}
+.hv-gold{color:var(--gold)}
+.hv-dark{color:var(--g800)}
+.hcard-desc{font-size:0.78rem;color:var(--ink-4);line-height:1.5}
+.live-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:0.62rem;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--g600);background:var(--g50);
+  border:1px solid var(--g100);
+  padding:0.18rem 0.6rem;border-radius:20px;margin-top:0.6rem
+}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--g500);animation:blink 2s infinite}
 
 /* ── IMPACT BAND ── */
-.impact-band{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
-.impact-box{background:white;padding:1.8rem 1rem;text-align:center}
-.impact-val{font-family:var(--display);font-size:2.3rem;line-height:1;color:var(--blue);margin-bottom:0.35rem}
-.impact-lbl{font-size:0.76rem;color:var(--ink-muted);line-height:1.4}
+.impact-band{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:var(--r);overflow:hidden
+}
+.ibox{background:white;padding:2rem 1.2rem;text-align:center}
+.ibox:hover{background:var(--g25)}
+.ibox-val{
+  font-family:var(--display);font-size:2.4rem;
+  line-height:1;color:var(--g600);margin-bottom:0.4rem
+}
+.ibox-lbl{font-size:0.76rem;color:var(--ink-4);line-height:1.45}
+
+/* ── SECTION HEADER ── */
+.sh{margin-bottom:clamp(2.5rem,4vw,4rem)}
+.sh-eye{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:0.68rem;letter-spacing:0.13em;
+  text-transform:uppercase;color:var(--g600);
+  background:var(--g50);border:1px solid var(--g100);
+  padding:0.28rem 0.8rem;border-radius:20px;margin-bottom:0.8rem
+}
+.sh h2{
+  font-family:var(--display);
+  font-size:clamp(2rem,3.5vw,2.9rem);
+  line-height:1.1;color:var(--g900);letter-spacing:-0.025em
+}
+.sh p{
+  margin-top:0.8rem;font-size:0.98rem;
+  color:var(--ink-3);max-width:600px;line-height:1.8
+}
+
+/* ── PROBLEM ── */
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.prob-txt h2{
+  font-family:var(--display);
+  font-size:clamp(1.9rem,3.5vw,2.7rem);
+  line-height:1.1;color:white;letter-spacing:-0.02em;margin-bottom:1.3rem
+}
+.prob-txt p{font-size:0.96rem;color:rgba(255,255,255,0.68);line-height:1.85;margin-bottom:0.9rem}
+.prob-stats{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:var(--r);overflow:hidden;margin-top:2rem
+}
+.psb{padding:1.4rem 1.2rem;background:rgba(255,255,255,0.03)}
+.psb-val{font-family:var(--display);font-size:2.1rem;color:var(--g400);line-height:1}
+.psb-lbl{font-size:0.75rem;color:rgba(255,255,255,0.42);margin-top:0.35rem;line-height:1.45}
+.prob-cards{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.09);
+  border-radius:var(--r);overflow:hidden
+}
+.prob-row{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:1.2rem 1.5rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  transition:background 0.2s
+}
+.prob-row:last-child{border-bottom:none}
+.prob-row:hover{background:rgba(255,255,255,0.05)}
+.prob-ico-wrap{
+  width:38px;height:38px;border-radius:8px;
+  background:rgba(255,255,255,0.07);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0
+}
+.prob-body h4{font-size:0.88rem;font-weight:600;color:white;margin-bottom:0.25rem}
+.prob-body p{font-size:0.79rem;color:rgba(255,255,255,0.48);line-height:1.6}
+
+/* ── TOOLS ── */
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.tool-card{
+  background:white;border:1px solid var(--rule);
+  border-radius:var(--r);overflow:hidden;
+  transition:transform 0.25s,box-shadow 0.25s,border-color 0.25s;
+  display:flex;flex-direction:column
+}
+.tool-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(26,107,74,0.1);
+  border-color:var(--g200)
+}
+.tool-top{
+  padding:1.7rem 1.6rem 1.3rem;flex:1;
+  background:var(--g25);
+  border-bottom:1px solid var(--rule-2)
+}
+.tool-icon-wrap{
+  width:48px;height:48px;border-radius:10px;
+  background:white;border:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1.1rem
+}
+.tool-name{
+  font-family:var(--display);font-size:1.15rem;
+  color:var(--g900);margin-bottom:0.5rem;line-height:1.25
+}
+.tool-desc{font-size:0.84rem;color:var(--ink-3);line-height:1.7}
+.tool-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:1rem}
+.ttag{
+  font-family:var(--mono);font-size:0.62rem;
+  padding:0.24rem 0.65rem;border-radius:4px;
+  color:var(--g700);background:white;
+  border:1px solid var(--rule);font-weight:500
+}
+.tool-bottom{
+  padding:1rem 1.6rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:white
+}
+.tool-url{
+  font-family:var(--mono);font-size:0.66rem;
+  color:var(--ink-4);text-decoration:none
+}
+.tool-url:hover{color:var(--g600)}
+
+/* ── HOW IT WORKS ── */
+.flow-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:var(--r);overflow:hidden
+}
+.flow-step{
+  background:white;padding:2rem 1.5rem;
+  position:relative;transition:background 0.2s
+}
+.flow-step:hover{background:var(--g25)}
+.flow-step:not(:last-child)::after{
+  content:'→';
+  position:absolute;right:-13px;top:2.2rem;
+  width:26px;height:26px;
+  background:var(--g600);border-radius:50%;
+  color:white;font-size:0.65rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  line-height:26px;text-align:center;z-index:2
+}
+.flow-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.flow-num{
+  font-family:var(--display);font-style:italic;
+  font-size:2.8rem;color:var(--g100);line-height:1
+}
+.flow-ico{
+  width:40px;height:40px;border-radius:9px;
+  background:var(--g50);border:1px solid var(--g100);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0
+}
+.flow-title{font-size:0.9rem;font-weight:700;color:var(--g800);margin-bottom:0.4rem}
+.flow-desc{font-size:0.79rem;color:var(--ink-4);line-height:1.65}
 
 /* ── TRACTION ── */
-.traction-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:2rem}
-.traction-card{background:white;border:1px solid var(--rule);border-radius:10px;padding:1.7rem}
-.traction-title{font-family:var(--mono);font-size:0.7rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1.1rem}
-.traction-title.blue{color:var(--blue)}
-.traction-title.teal{color:var(--teal)}
-.traction-list{display:flex;flex-direction:column;gap:0.55rem}
-.traction-item{display:flex;align-items:flex-start;gap:0.65rem;font-size:0.85rem;color:var(--ink-soft);line-height:1.5}
-.tick{color:var(--blue);font-weight:700;flex-shrink:0;margin-top:0.05rem}
-.arr{color:var(--teal);font-weight:700;flex-shrink:0;margin-top:0.05rem}
+.traction-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:2.5rem}
+.traction-card{
+  background:white;border:1px solid var(--rule);
+  border-radius:var(--r);padding:1.8rem;
+  border-top:3px solid var(--g600)
+}
+.traction-card.next{border-top-color:var(--gold)}
+.traction-head{
+  font-family:var(--mono);font-size:0.68rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--g600);margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:8px
+}
+.traction-head.gold{color:var(--gold)}
+.tlist{display:flex;flex-direction:column;gap:0.55rem}
+.titem{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:0.85rem;color:var(--ink-3);line-height:1.55;
+  padding:0.5rem;border-radius:6px;transition:background 0.15s
+}
+.titem:hover{background:var(--g25)}
+.tick{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--g50);color:var(--g600);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.62rem;font-weight:700;flex-shrink:0;margin-top:1px
+}
+.arr{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--gold-l);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.62rem;font-weight:700;flex-shrink:0;margin-top:1px
+}
 
 /* ── TEAM ── */
-.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:1.4rem}
-.team-card{background:white;border:1px solid var(--rule);border-radius:10px;padding:1.8rem;transition:box-shadow 0.2s}
-.team-card:hover{box-shadow:0 4px 18px rgba(29,111,164,0.08)}
-.team-av{width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.4rem;color:white;margin-bottom:1rem}
-.av-blue{background:var(--blue)}
-.av-teal{background:var(--teal)}
-.av-navy{background:var(--blue-dark)}
-.team-name{font-size:1rem;font-weight:700;color:var(--blue-dark);margin-bottom:0.2rem}
-.team-role{font-size:0.79rem;color:var(--blue);font-weight:500;margin-bottom:0.65rem}
-.team-bio{font-size:0.82rem;color:var(--ink-soft);line-height:1.65}
-.team-badge{display:inline-block;margin-top:0.75rem;font-family:var(--mono);font-size:0.66rem;color:var(--ink-muted);background:var(--paper-warm);padding:0.2rem 0.6rem;border-radius:3px;border:1px solid var(--rule)}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.team-card{
+  background:white;border:1px solid var(--rule);
+  border-radius:var(--r);overflow:hidden;
+  transition:transform 0.2s,box-shadow 0.2s
+}
+.team-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(26,107,74,0.09)}
+.team-top{
+  background:var(--g800);padding:1.6rem;
+  display:flex;align-items:center;gap:14px
+}
+.team-av{
+  width:52px;height:52px;border-radius:12px;
+  background:var(--g600);border:2px solid var(--g500);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:1.4rem;
+  color:white;flex-shrink:0
+}
+.team-av.gold-av{background:var(--gold)}
+.team-av.plus-av{background:var(--g700)}
+.team-name{font-size:1rem;font-weight:700;color:white;margin-bottom:0.18rem}
+.team-role{font-size:0.75rem;color:var(--g400);font-family:var(--mono);letter-spacing:0.03em}
+.team-body{padding:1.4rem 1.6rem}
+.team-bio{font-size:0.82rem;color:var(--ink-3);line-height:1.7}
+.team-badge{
+  display:inline-block;margin-top:0.9rem;
+  font-family:var(--mono);font-size:0.64rem;
+  color:var(--g700);background:var(--g50);
+  padding:0.25rem 0.7rem;border-radius:4px;
+  border:1px solid var(--g100);font-weight:500
+}
 
 /* ── CONTACT ── */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:start}
-.contact-left h2{font-family:var(--display);font-size:clamp(1.8rem,3vw,2.5rem);color:var(--blue-dark);margin-bottom:1rem;line-height:1.15;letter-spacing:-0.02em}
-.contact-left p{font-size:0.95rem;color:var(--ink-soft);line-height:1.8;margin-bottom:1.2rem}
-.collab-box{background:var(--blue);border:1px solid rgba(29,111,164,0.18);border-radius:8px;padding:1.2rem 1.4rem}
-.collab-box h4{font-size:0.84rem;font-weight:700;color:var(--white);margin-bottom:0.4rem}
-.collab-box p{font-size:0.81rem;color:var(--white);line-height:1.6;margin:0}
-.contact-links{display:flex;flex-direction:column;gap:0.65rem}
-.clink{display:flex;align-items:center;gap:0.9rem;padding:0.95rem 1.1rem;background:white;border:1px solid var(--rule);border-radius:7px;text-decoration:none;transition:all 0.2s}
-.clink:hover{border-color:var(--blue);background:var(--blue-pale);transform:translateX(4px)}
-.clink-icon{width:36px;height:36px;border-radius:7px;background:var(--paper-warm);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.clink strong{display:block;font-size:0.84rem;font-weight:600;color:var(--ink)}
-.clink span{font-size:0.76rem;color:var(--ink-muted)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.contact-left h2{
+  font-family:var(--display);
+  font-size:clamp(1.9rem,3vw,2.6rem);
+  color:var(--g900);margin-bottom:1.1rem;
+  line-height:1.15;letter-spacing:-0.025em
+}
+.contact-left p{font-size:0.96rem;color:var(--ink-3);line-height:1.85;margin-bottom:1.5rem}
+.collab-box{
+  background:var(--g800);
+  border-radius:var(--r);padding:1.5rem 1.7rem
+}
+.collab-box h4{
+  font-size:0.85rem;font-weight:700;
+  color:var(--g400);margin-bottom:0.6rem;
+  font-family:var(--mono);text-transform:uppercase;
+  letter-spacing:0.08em
+}
+.collab-box p{font-size:0.84rem;color:rgba(255,255,255,0.65);line-height:1.75;margin:0}
+.clinks{display:flex;flex-direction:column;gap:0.7rem}
+.clink{
+  display:flex;align-items:center;gap:12px;
+  padding:1rem 1.2rem;background:white;
+  border:1px solid var(--rule);border-radius:var(--r-sm);
+  text-decoration:none;transition:all 0.2s
+}
+.clink:hover{
+  border-color:var(--g600);background:var(--g25);
+  transform:translateX(5px);
+  box-shadow:0 2px 12px rgba(26,107,74,0.08)
+}
+.clink-ico{
+  width:38px;height:38px;border-radius:8px;
+  background:var(--paper-2);border:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.05rem;flex-shrink:0;transition:background 0.2s
+}
+.clink:hover .clink-ico{background:var(--g50)}
+.clink strong{display:block;font-size:0.85rem;font-weight:600;color:var(--ink)}
+.clink span{font-size:0.76rem;color:var(--ink-4)}
 
 /* ── FOOTER ── */
-footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
-.footer-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:2rem;align-items:start}
-.footer-brand{font-family:var(--display);font-size:1.3rem;color:white;margin-bottom:0.4rem}
-.footer-brand span{color:#5BB8E8}
-.footer-desc{font-size:0.8rem;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:1rem}
-.footer-email{font-family:var(--mono);font-size:0.72rem;color:rgba(255,255,255,0.5)}
-.footer-col h4{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.35);margin-bottom:0.9rem;font-family:var(--mono)}
-.footer-col a{display:block;font-size:0.82rem;color:rgba(255,255,255,0.55);text-decoration:none;margin-bottom:0.5rem;transition:color 0.2s}
-.footer-col a:hover{color:#5BB8E8}
-.footer-bottom{max-width:var(--max);margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem}
-.footer-bottom p{font-size:0.76rem;color:rgba(255,255,255,0.3)}
+footer{background:var(--g900);padding:3.5rem var(--gap) 2rem}
+.footer-inner{
+  max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:1.6fr 1fr 1fr;
+  gap:2.5rem;align-items:start
+}
+.footer-brand{
+  font-family:var(--display);font-size:1.4rem;
+  color:white;margin-bottom:0.5rem
+}
+.footer-brand span{color:var(--g400)}
+.footer-desc{font-size:0.8rem;color:rgba(255,255,255,0.38);line-height:1.7;margin-bottom:1.1rem}
+.footer-email{font-family:var(--mono);font-size:0.7rem;color:rgba(255,255,255,0.35)}
+.footer-col h4{
+  font-size:0.67rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:0.11em;color:rgba(255,255,255,0.28);
+  margin-bottom:1rem;font-family:var(--mono)
+}
+.footer-col a{
+  display:block;font-size:0.82rem;
+  color:rgba(255,255,255,0.48);text-decoration:none;
+  margin-bottom:0.55rem;transition:color 0.2s
+}
+.footer-col a:hover{color:var(--g400)}
+.footer-bottom{
+  max-width:var(--max);margin:2.5rem auto 0;
+  padding-top:1.5rem;
+  border-top:1px solid rgba(255,255,255,0.07);
+  display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:0.5rem
+}
+.footer-bottom p{font-size:0.73rem;color:rgba(255,255,255,0.22)}
 
 /* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
 .reveal.visible{opacity:1;transform:none}
 
 /* ── RESPONSIVE ── */
-@media(max-width:800px){
-  .hero-inner,.problem-grid,.contact-grid{grid-template-columns:1fr}
-  .flow{grid-template-columns:1fr 1fr}
-  .flow-arrow{display:none}
+@media(max-width:900px){
+  .hero-inner,.prob-grid,.contact-grid{grid-template-columns:1fr}
+  .tools-grid,.team-grid{grid-template-columns:1fr 1fr}
+  .flow-grid{grid-template-columns:1fr 1fr}
+  .flow-step:not(:last-child)::after{display:none}
   .impact-band{grid-template-columns:repeat(3,1fr)}
   .traction-grid{grid-template-columns:1fr}
   .footer-inner{grid-template-columns:1fr}
   .nav-links{display:none}
+}
+@media(max-width:560px){
+  .tools-grid,.team-grid,.flow-grid{grid-template-columns:1fr}
+  .impact-band{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -220,8 +500,8 @@ footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <div class="nav-logo-mark">X</div>
-    <span class="nav-logo-name"><span>Xplain</span>Health</span>
+    <div class="logo-mark">X</div>
+    <span class="logo-name"><span>Xplain</span>Health</span>
   </a>
   <ul class="nav-links">
     <li><a href="#solution">Solution</a></li>
@@ -230,77 +510,103 @@ footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
     <li><a href="#team">Team</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="mailto:hello@xplainhealth.org" class="nav-btn">Get in Touch</a>
+  <a href="mailto:hello@xplainhealth.org" class="nav-cta">Get in Touch</a>
 </nav>
 
 <main>
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-blob-1"></div>
+  <div class="hero-blob-2"></div>
   <div class="hero-inner">
     <div>
-      <div class="hero-kicker">XplainHealth — Uganda </div>
-      <h1 class="hero-title">Making AI health tools <em>explainable</em> and accessible</h1>
-      <p class="hero-sub">XplainHealth builds open-source explainable AI tools that identify children at risk of stunting in Uganda — giving community health workers,clinicians a practical screening tool and district health officers and policy makers real-time intelligence.</p>
-      <div class="hero-btns">
-        <a href="https://malnutrition-tool.streamlit.app" target="_blank" class="btn btn-blue">Try the Tool ↗</a>
-        <a href="#solution" class="btn btn-outline">See How It Works</a>
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        XplainHealth &mdash; Uganda 
       </div>
-      <div class="hero-trust"> Uganda DHS Data · Open Source</div>
+      <h1 class="hero-h1">Making AI health screening <em>explainable</em> and accessible</h1>
+      <p class="hero-sub">XplainHealth builds open-source explainable AI tools for community health in Africa. Our first product identifies children at risk of stunting in Uganda &mdash; giving village health workers a practical screening tool and district health officers real-time intelligence.</p>
+      <div class="hero-btns">
+        <a href="https://malnutrition-tool.streamlit.app" target="_blank" class="btn btn-p">Try the Tool &rarr;</a>
+        <a href="#solution" class="btn btn-s">See How It Works</a>
+      </div>
+      <div class="hero-meta">
+        <span>Uganda DHS Data</span>
+        <span class="meta-sep">&middot;</span>
+        <span>Open Source</span>
+        <span class="meta-sep">&middot;</span>
+        <span>Universitat Pompeu Fabra</span>
+        <span class="meta-sep">&middot;</span>
+        <span>2 Papers Under Review</span>
+      </div>
     </div>
     <div class="hero-cards">
       <div class="hcard reveal">
         <div class="hcard-label">Model Performance</div>
-        <div class="hcard-value blue">0.704</div>
-        <div class="hcard-desc">AUC-ROC — Model with sibling-aware cross-validation on Uganda DHS data (4,530 children)</div>
+        <div class="hcard-val hv-green">0.704</div>
+        <div class="hcard-desc">AUC-ROC &mdash; XGBoost with sibling-aware cross-validation on Uganda DHS 2016 (4,530 children)</div>
         <div class="live-pill"><span class="live-dot"></span> Both tools live now</div>
       </div>
-      <div class="hcard reveal" style="transition-delay:0.1s">
+      <div class="hcard reveal" style="transition-delay:0.12s">
         <div class="hcard-label">Stunting Recall at Threshold</div>
-        <div class="hcard-value teal">77.4%</div>
-        <div class="hcard-desc">Model correctly identifies 3 in 4 stunted children — threshold optimised for community screening sensitivity</div>
+        <div class="hcard-val hv-gold">77.4%</div>
+        <div class="hcard-desc">Model correctly identifies 3 in 4 stunted children &mdash; threshold optimised for community screening</div>
       </div>
-      <div class="hcard reveal" style="transition-delay:0.2s">
-        <div class="hcard-label">Training Dataset</div>
-        <div class="hcard-value dark">4,530</div>
-        <div class="hcard-desc">Children across 693 clusters · 3,194 mothers · All four Uganda regions · Zero sibling data leakage</div>
+      <div class="hcard reveal" style="transition-delay:0.22s">
+        <div class="hcard-label">Children in Training Data</div>
+        <div class="hcard-val hv-dark">4,530</div>
+        <div class="hcard-desc">693 clusters &middot; 3,194 mothers &middot; All four Uganda regions &middot; Zero sibling leakage</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT BAND -->
+<section style="background:white;padding:0;border-bottom:1px solid var(--rule-2)">
+  <div class="wrap" style="padding:2.5rem var(--gap)">
+    <div class="impact-band reveal">
+      <div class="ibox"><div class="ibox-val">4,530</div><div class="ibox-lbl">Children in training dataset &mdash; Uganda DHS 2016</div></div>
+      <div class="ibox"><div class="ibox-val">0.704</div><div class="ibox-lbl">AUC-ROC with sibling-aware cross-validation</div></div>
+      <div class="ibox"><div class="ibox-val">77.4%</div><div class="ibox-lbl">Stunted children correctly identified by model</div></div>
+      <div class="ibox"><div class="ibox-val">2</div><div class="ibox-lbl">Live deployed open-source tools</div></div>
+      <div class="ibox"><div class="ibox-val">2</div><div class="ibox-lbl">Papers under review &mdash; BMJ Global Health &amp; BMJ Digital Health</div></div>
     </div>
   </div>
 </section>
 
 <!-- PROBLEM -->
 <section class="section dark">
-  <div class="container">
-    <div class="problem-grid">
-      <div class="problem-text reveal">
-        <h2>1 in 3 Ugandan children is stunted. Most go undetected until it is too late.</h2>
-        <p>Stunting — being too short for one's age due to chronic undernutrition — affects 28.4% of Ugandan children under five. Its consequences are irreversible after age two: impaired brain development, lower school performance, reduced lifetime income, and a cycle that repeats through the next generation.</p>
-        <p>The problem is not that stunting cannot be prevented. The problem is that children at risk are not identified early enough for intervention to make a difference. Uganda's 170,000 Village Health Team workers — the frontline of community health — have no practical tool for stunting risk screening.</p>
-        <div class="stat-grid">
-          <div class="stat-box"><div class="stat-val">28.4%</div><div class="stat-lbl">Uganda stunting prevalence — 1 in 3.5 children under five</div></div>
-          <div class="stat-box"><div class="stat-val">3.6×</div><div class="stat-lbl">Higher stunting risk for children of uneducated mothers</div></div>
-          <div class="stat-box"><div class="stat-val">19%</div><div class="stat-lbl">Uganda Nutrition Action Plan: Reduce the prevalence of stunting among children under five from 26% (2024 baseline) to 20% by 2030 </div></div>
-          <div class="stat-box"><div class="stat-val">170K</div><div class="stat-lbl">Community health workers in Uganda with no stunting screening tool</div></div>
+  <div class="wrap">
+    <div class="prob-grid">
+      <div class="prob-txt reveal">
+        <h2>1 in 4 Ugandan children is stunted. Most go undetected until it is too late.</h2>
+        <p>Stunting &mdash; being too short for one&rsquo;s age due to chronic undernutrition &mdash; affects 26% of Ugandan children under five. Its consequences are irreversible after age two: impaired brain development, lower school performance, reduced lifetime income, and a cycle that repeats through the next generation.</p>
+        <p>The problem is not that stunting cannot be prevented. The problem is that at-risk children are not identified early enough for intervention to make a difference. Uganda&rsquo;s 170,000 village health workers have no practical tool for stunting risk screening.</p>
+        <div class="prob-stats">
+          <div class="psb"><div class="psb-val">26%</div><div class="psb-lbl">Uganda stunting prevalence (UDHS 2022)</div></div>
+          <div class="psb"><div class="psb-val">3.6&times;</div><div class="psb-lbl">Higher risk for children of uneducated mothers</div></div>
+          <div class="psb"><div class="psb-val">20%</div><div class="psb-lbl">Uganda target: reduce stunting to 20% by 2030 &mdash; not on track</div></div>
+          <div class="psb"><div class="psb-val">170K</div><div class="psb-lbl">Community health workers with no stunting screening tool</div></div>
         </div>
       </div>
       <div class="reveal" style="transition-delay:0.15s">
         <div class="prob-cards">
-          <div class="prob-card">
-            <div class="prob-icon">⏱️</div>
-            <div class="prob-body"><h4>The window closes at 24 months</h4><p>Stunting in the first 1,000 days is largely irreversible. Current systems miss children until they reach a health facility — often years too late for effective intervention.</p></div>
+          <div class="prob-row">
+            <div class="prob-ico-wrap">&#9203;</div>
+            <div class="prob-body"><h4>The window closes at 24 months</h4><p>Stunting in the first 1,000 days is largely irreversible. Current systems miss children until they reach a health facility &mdash; often years too late for effective intervention.</p></div>
           </div>
-          <div class="prob-card">
-            <div class="prob-icon">📏</div>
-            <div class="prob-body"><h4>MUAC cannot detect stunting</h4><p>The only community screening tool available — the MUAC tape — measures acute wasting, not chronic stunting. Community health workers have no way to flag stunting risk during home visits.</p></div>
+          <div class="prob-row">
+            <div class="prob-ico-wrap">&#128207;</div>
+            <div class="prob-body"><h4>MUAC cannot detect stunting</h4><p>The only community screening tool &mdash; the MUAC tape &mdash; measures acute wasting, not chronic stunting. Health workers have no way to flag stunting risk during home visits.</p></div>
           </div>
-          <div class="prob-card">
-            <div class="prob-icon">🌐</div>
-            <div class="prob-body"><h4>Black-box AI cannot be trusted</h4><p>Existing AI health tools give predictions without explanations. Health workers and policy makers cannot act on results they do not understand. Explainability is not optional — it is clinical necessity.</p></div>
+          <div class="prob-row">
+            <div class="prob-ico-wrap">&#128683;</div>
+            <div class="prob-body"><h4>Black-box AI cannot be trusted</h4><p>Existing AI health tools give predictions without explanations. Health workers and policy makers cannot act on results they do not understand. Explainability is not optional &mdash; it is a clinical necessity.</p></div>
           </div>
-          <div class="prob-card">
-            <div class="prob-icon">📡</div>
-            <div class="prob-body"><h4>No real-time data for DHOs</h4><p>District Health Officers allocate resources based on historical averages — not live community data. Northern Uganda communities with 40%+ stunting receive no more support than lower-burden areas.</p></div>
+          <div class="prob-row">
+            <div class="prob-ico-wrap">&#128225;</div>
+            <div class="prob-body"><h4>No real-time data for District Health Officers</h4><p>DHOs allocate resources based on historical averages, not live data. Northern Uganda communities with 40%+ stunting receive no more support than lower-burden areas.</p></div>
           </div>
         </div>
       </div>
@@ -310,52 +616,63 @@ footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
 
 <!-- SOLUTION -->
 <section id="solution" class="section alt">
-  <div class="container">
+  <div class="wrap">
     <div class="sh reveal">
       <div class="sh-eye">Our Solution</div>
-      <h2>A two-tier explainable AI system — from village to district</h2>
-      <p>XplainHealth connects community-level screening by VHT workers to real-time district-level monitoring — all powered by open-source explainable AI that health workers can understand and trust.</p>
+      <h2>A two-tier explainable AI system &mdash; from village to district</h2>
+      <p>XplainHealth connects community-level screening by health workers to real-time district-level monitoring &mdash; all powered by open-source explainable AI that every stakeholder can understand and trust.</p>
     </div>
     <div class="tools-grid">
       <div class="tool-card reveal">
         <div class="tool-top">
-          <div class="tool-icon ti-blue">📱</div>
+          <div class="tool-icon-wrap">&#128241;</div>
           <div class="tool-name">Community Screening App</div>
-          <div class="tool-desc">Six-input mobile Progressive Web App for Community Health workers. Runs completely offline after first load — no internet needed for predictions. AI model executes in the browser. MUAC acts as a clinical safety override for severe acute malnutrition. Installs on any Android phone from the browser in one tap.</div>
+          <div class="tool-desc">Six-input mobile Progressive Web App for community health workers. Runs completely offline after first load &mdash; no internet needed for predictions. The AI model executes entirely in the browser. MUAC acts as a clinical safety override for severe acute malnutrition. Installs on any Android phone from the browser in one tap.</div>
           <div class="tool-tags">
-            <span class="ttag">Offline PWA</span><span class="ttag">6 inputs</span><span class="ttag">Android</span><span class="ttag">MUAC override</span><span class="ttag">Open source</span>
+            <span class="ttag">Offline PWA</span>
+            <span class="ttag">6 inputs</span>
+            <span class="ttag">Android</span>
+            <span class="ttag">MUAC override</span>
+            <span class="ttag">Open source</span>
           </div>
         </div>
         <div class="tool-bottom">
-          <a href="https://nuru20.github.io/community-malnutrition-app" target="_blank" class="tool-url">nuru20.github.io/community-malnutrition-app ↗</a>
+          <a href="https://nuru20.github.io/community-malnutrition-app" target="_blank" class="tool-url">nuru20.github.io/community-malnutrition-app &rarr;</a>
           <div class="live-pill"><span class="live-dot"></span> Live</div>
         </div>
       </div>
       <div class="tool-card reveal" style="transition-delay:0.1s">
         <div class="tool-top">
-          <div class="tool-icon ti-teal">🔬</div>
-          <div class="tool-name">Research & Clinical Dashboard</div>
-          <div class="tool-desc">Full 19-input stunting risk predictor with SHAP explainability — showing exactly which factors drive each prediction in plain language. Built for researchers, clinicians, and District Health Officers. Population tab shows live VHT screening data from across the district in real time.</div>
+          <div class="tool-icon-wrap">&#128300;</div>
+          <div class="tool-name">Research &amp; Clinical Dashboard</div>
+          <div class="tool-desc">Full 19-input stunting risk predictor with SHAP explainability &mdash; showing exactly which factors drive each prediction in plain language. Built for researchers, clinicians, and District Health Officers. Population tab shows live screening data from across the district in real time.</div>
           <div class="tool-tags">
-            <span class="ttag">19 inputs</span><span class="ttag">SHAP XAI</span><span class="ttag">Population tab</span><span class="ttag">Streamlit</span><span class="ttag">Python</span>
+            <span class="ttag">19 inputs</span>
+            <span class="ttag">SHAP XAI</span>
+            <span class="ttag">Population tab</span>
+            <span class="ttag">Streamlit</span>
+            <span class="ttag">Python</span>
           </div>
         </div>
         <div class="tool-bottom">
-          <a href="https://malnutrition-tool.streamlit.app" target="_blank" class="tool-url">malnutrition-tool.streamlit.app ↗</a>
+          <a href="https://malnutrition-tool.streamlit.app" target="_blank" class="tool-url">malnutrition-tool.streamlit.app &rarr;</a>
           <div class="live-pill"><span class="live-dot"></span> Live</div>
         </div>
       </div>
       <div class="tool-card reveal" style="transition-delay:0.2s">
         <div class="tool-top">
-          <div class="tool-icon ti-navy">🗄️</div>
+          <div class="tool-icon-wrap">&#128452;</div>
           <div class="tool-name">Shared Live Database</div>
-          <div class="tool-desc">Both tools write every screening to a single PostgreSQL database. District Health Officers see all community and clinical screenings in real time — enabling targeted resource allocation based on live risk patterns rather than historical averages.</div>
+          <div class="tool-desc">Both tools write every screening to a single PostgreSQL database. District Health Officers see all community and clinical screenings in real time &mdash; enabling targeted resource allocation based on live risk patterns rather than historical averages.</div>
           <div class="tool-tags">
-            <span class="ttag">Supabase</span><span class="ttag">PostgreSQL</span><span class="ttag">Real-time</span><span class="ttag">District monitoring</span>
+            <span class="ttag">Supabase</span>
+            <span class="ttag">PostgreSQL</span>
+            <span class="ttag">Real-time</span>
+            <span class="ttag">District monitoring</span>
           </div>
         </div>
         <div class="tool-bottom">
-          <a href="https://github.com/Nuru20" target="_blank" class="tool-url">github.com/Nuru20 — open source ↗</a>
+          <a href="https://github.com/Nuru20" target="_blank" class="tool-url">github.com/Nuru20 &mdash; open source &rarr;</a>
           <div class="live-pill"><span class="live-dot"></span> Live</div>
         </div>
       </div>
@@ -365,93 +682,81 @@ footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
 
 <!-- HOW IT WORKS -->
 <section id="how" class="section">
-  <div class="container">
+  <div class="wrap">
     <div class="sh reveal">
       <div class="sh-eye">How It Works</div>
       <h2>From village home visit to district intelligence</h2>
     </div>
-    <div class="flow reveal">
+    <div class="flow-grid reveal">
       <div class="flow-step">
-      </div class = "flow-header">
-        <div class="flow-num">1</div>
-        <div class="flow-icon">🏘️</div>
-        <div class="flow-title">Community health worker visits child</div>
-        <div class="flow-desc">Village Health Team worker opens XplainHealth on their phone during a routine home visit. Enters 6 simple inputs — child age, sex, MUAC, whether mother can read, children under 5, distance to clinic.</div>
-        <div class="flow-arrow">→</div>
+        <div class="flow-header">
+          <div class="flow-num">1</div>
+          <div class="flow-ico">&#127960;</div>
+        </div>
+        <div class="flow-title">Health worker visits child</div>
+        <div class="flow-desc">Community health worker opens XplainHealth on their phone during a routine home visit. Enters 6 simple inputs &mdash; child age, sex, MUAC, whether mother can read, children under 5, distance to clinic.</div>
       </div>
-
       <div class="flow-step">
-        </div class = "flow-header">
-        <div class="flow-num">2</div>
-        <div class="flow-icon">🤖</div>
+        <div class="flow-header">
+          <div class="flow-num">2</div>
+          <div class="flow-ico">&#129302;</div>
+        </div>
         <div class="flow-title">AI predicts and explains</div>
-        <div class="flow-desc">The model runs instantly in the browser — no internet needed. Shows GREEN, YELLOW, or RED with a plain-language explanation of the top risk factors driving the result.</div>
-        <div class="flow-arrow">→</div>
+        <div class="flow-desc">The model runs instantly in the browser &mdash; no internet needed. Shows GREEN, YELLOW, or RED with a plain-language explanation of the top risk factors driving the result.</div>
       </div>
-
       <div class="flow-step">
-
-        <div class="flow-num">3</div>
-        </div class = "flow-header">
-        <div class="flow-icon">☁️</div>
+        <div class="flow-header">
+          <div class="flow-num">3</div>
+          <div class="flow-ico">&#9729;</div>
+        </div>
         <div class="flow-title">Screening saved</div>
-        <div class="flow-desc">When internet is available the record syncs to the shared database — district, VHT code, risk level, and probability all stored, building a live picture of risk across the community.</div>
-        <div class="flow-arrow">→</div>
+        <div class="flow-desc">When internet is available the record syncs to the shared database &mdash; district, worker code, risk level, and probability all stored, building a live picture of risk across the community.</div>
       </div>
-
       <div class="flow-step">
-        <div class="flow-num">4</div>
-        </div class = "flow-header">
-        <div class="flow-icon">📊</div>
+        <div class="flow-header">
+          <div class="flow-num">4</div>
+          <div class="flow-ico">&#128202;</div>
+        </div>
         <div class="flow-title">DHO acts on data</div>
-        <div class="flow-desc">The District Health Officer opens the Research Dashboard. Sees real-time risk patterns across their district — which subcounties need urgent attention, which VHTs are most active, and where to deploy resources.</div>
+        <div class="flow-desc">The District Health Officer opens the Research Dashboard. Sees real-time risk patterns across their district &mdash; which subcounties need urgent attention and where to deploy resources.</div>
       </div>
     </div>
   </div>
-
-
 </section>
 
 <!-- IMPACT -->
 <section id="impact" class="section alt">
-  <div class="container">
+  <div class="wrap">
     <div class="sh reveal">
-      <div class="sh-eye">Evidence and Traction</div>
+      <div class="sh-eye">Evidence &amp; Traction</div>
       <h2>Built on real data. Validated against national figures.</h2>
-      <p>Our model is trained on the Uganda Demographic and Health Survey data — nationally representative data covering 4,530 children across all four regions. Prevalence estimates validated against published UDHS national figures.</p>
-    </div>
-    <div class="impact-band reveal" style="margin-bottom:2rem">
-      <div class="impact-box"><div class="impact-val">4,530</div><div class="impact-lbl">Children in training dataset — Uganda DHS data</div></div>
-      <div class="impact-box"><div class="impact-val">0.704</div><div class="impact-lbl">AUC-ROC — sibling-aware cross-validation</div></div>
-      <div class="impact-box"><div class="impact-val">77.4%</div><div class="impact-lbl">Stunted children correctly identified</div></div>
-      <div class="impact-box"><div class="impact-val">2</div><div class="impact-lbl">Live deployed open-source tools</div></div>
-      <div class="impact-box"><div class="impact-val">2</div><div class="impact-lbl">Journal papers under review </div></div>
+      <p>Our model is trained on the Uganda Demographic and Health Survey 2016 &mdash; nationally representative data across all four regions. Prevalence estimates validated against published UDHS national figures.</p>
     </div>
     <div class="traction-grid reveal">
       <div class="traction-card">
-        <div class="traction-title blue">✓ Built and Deployed</div>
-        <div class="traction-list">
-          <div class="traction-item"><span class="tick">✓</span>VHT Community App live — offline PWA, works in rural Uganda</div>
-          <div class="traction-item"><span class="tick">✓</span>Research Dashboard live — SHAP explainability for every prediction</div>
-          <div class="traction-item"><span class="tick">✓</span>Shared live database — both tools writing and reading</div>
-          <div class="traction-item"><span class="tick">✓</span>Both tools fully open source on GitHub</div>
-          <div class="traction-item"><span class="tick">✓</span>Model validated against UDHS 2016 published national figures</div>
-          <div class="traction-item"><span class="tick">✓</span>Novel sibling-aware cross-validation methodology — addresses gap in existing DHS prediction literature</div>
-          <div class="traction-item"><span class="tick">✓</span>Interaction features improve AUC by +0.019 over baseline</div>
-          <div class="traction-item"><span class="tick">✓</span>1 papers under review </div>
+        <div class="traction-head">&#10003; What We Have Built</div>
+        <div class="tlist">
+          <div class="titem"><div class="tick">&#10003;</div><span>Community App live &mdash; offline PWA, works in rural Uganda without internet</span></div>
+          <div class="titem"><div class="tick">&#10003;</div><span>Research Dashboard live &mdash; SHAP explainability for every individual prediction</span></div>
+          <div class="titem"><div class="tick">&#10003;</div><span>Shared live database &mdash; both tools writing and reading in real time</span></div>
+          <div class="titem"><div class="tick">&#10003;</div><span>Both tools fully open source on GitHub</span></div>
+          <div class="titem"><div class="tick">&#10003;</div><span>Model validated against UDHS 2016 published national prevalence figures</span></div>
+          <div class="titem"><div class="tick">&#10003;</div><span>Novel sibling-aware GroupShuffleSplit cross-validation &mdash; eliminates data leakage in DHS prediction</span></div>
+          <div class="titem"><div class="tick">&#10003;</div><span>Interaction features improve AUC by +0.019 over baseline</span></div>
+          <div class="titem"><div class="tick">&#10003;</div><span>2 papers under review at BMJ Global Health and BMJ Digital Health</span></div>
         </div>
       </div>
-      <div class="traction-card">
-        <div class="traction-title teal">→ Next 12 Months</div>
-        <div class="traction-list">
-          <div class="traction-item"><span class="arr">→</span>Uganda field pilot — 25 health workers across multiple districts</div>
-          <div class="traction-item"><span class="arr">→</span>Partnership with Makerere University School of Public Health</div>
-          <div class="traction-item"><span class="arr">→</span>Meeting Uganda Ministry of Health nutrition division</div>
-          <div class="traction-item"><span class="arr">→</span>District Health Officer letter of support for scale-up</div>
-          <div class="traction-item"><span class="arr">→</span>Retrain model on UDHS 2022 data when released by UBOS</div>
-          <div class="traction-item"><span class="arr">→</span>Add wasting and underweight prediction models</div>
-          <div class="traction-item"><span class="arr">→</span>Scale to 3 Uganda districts with confirmed funding</div>
-          <div class="traction-item"><span class="arr">→</span>Expand to Kenya and Tanzania DHS data</div>
+      <div class="traction-card next">
+        <div class="traction-head gold">&rarr; Next 12 Months</div>
+        <div class="tlist">
+          <div class="titem"><div class="arr">&rarr;</div><span>Uganda field pilot &mdash; 25 health workers across multiple districts</span></div>
+          <div class="titem"><div class="arr">&rarr;</div><span>Formal partnership with Makerere University School of Public Health</span></div>
+          <div class="titem"><div class="arr">&rarr;</div><span>Meeting Uganda Ministry of Health nutrition division for endorsement</span></div>
+          <div class="titem"><div class="arr">&rarr;</div><span>District Health Officer letter of support for district-level scale-up</span></div>
+          <div class="titem"><div class="arr">&rarr;</div><span>Retrain model on UDHS 2022 data when released by UBOS</span></div>
+          <div class="titem"><div class="arr">&rarr;</div><span>Add wasting and underweight prediction models to the platform</span></div>
+          <div class="titem"><div class="arr">&rarr;</div><span>Scale to 3 Uganda districts with confirmed funding</span></div>
+          <div class="titem"><div class="arr">&rarr;</div><span>Expand XplainHealth platform to Kenya and Tanzania DHS data</span></div>
         </div>
       </div>
     </div>
@@ -460,32 +765,50 @@ footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
 
 <!-- TEAM -->
 <section id="team" class="section">
-  <div class="container">
+  <div class="wrap">
     <div class="sh reveal">
       <div class="sh-eye">Team</div>
       <h2>Built by researchers who understand both the AI and the field</h2>
     </div>
     <div class="team-grid">
       <div class="team-card reveal">
-        <div class="team-av av-blue">N</div>
-        <div class="team-name">Nabuuso Nuru</div>
-        <div class="team-role">Founder &amp; Doctoral Researcher</div>
-        <div class="team-bio">Computer Science PhD researcher specialising in explainable AI. Designed and built both screening tools, the model, the SHAP explainability pipeline, and the shared database architecture. Ugandan — with direct field access and deep understanding of the communities the tools serve.</div>
-        <span class="team-badge">Universitat Pompeu Fabra, Barcelona</span>
+        <div class="team-top">
+          <div class="team-av">N</div>
+          <div>
+            <div class="team-name">Nabuuso Nuru</div>
+            <div class="team-role">Founder &amp; Doctoral Researcher</div>
+          </div>
+        </div>
+        <div class="team-body">
+          <div class="team-bio">Computer Science PhD researcher specialising in explainable AI. Designed and built both screening tools, the XGBoost model, the SHAP explainability pipeline, and the shared database architecture. Ugandan &mdash; with direct field access and deep understanding of the communities the tools serve.</div>
+          <span class="team-badge">Universitat Pompeu Fabra, Barcelona</span>
+        </div>
       </div>
       <div class="team-card reveal" style="transition-delay:0.1s">
-        <div class="team-av av-teal">V</div>
-        <div class="team-name">Vladimir Estivill</div>
-        <div class="team-role">Research Supervisor &amp; Co-Author</div>
-        <div class="team-bio">Professor of Computer Science at Universitat Pompeu Fabra. Provides methodological supervision, research strategy, and academic co-authorship. Deep expertise in machine learning and pattern recognition applied to complex real-world problems.</div>
-        <span class="team-badge">Universitat Pompeu Fabra, Barcelona</span>
+        <div class="team-top">
+          <div class="team-av gold-av">V</div>
+          <div>
+            <div class="team-name">Vladimir Estivill</div>
+            <div class="team-role">Research Supervisor &amp; Co-Author</div>
+          </div>
+        </div>
+        <div class="team-body">
+          <div class="team-bio">Professor of Computer Science at Universitat Pompeu Fabra. Provides methodological supervision, research strategy guidance, and academic co-authorship. Deep expertise in machine learning and pattern recognition applied to complex real-world problems.</div>
+          <span class="team-badge">Universitat Pompeu Fabra, Barcelona</span>
+        </div>
       </div>
       <div class="team-card reveal" style="transition-delay:0.2s">
-        <div class="team-av av-navy">+</div>
-        <div class="team-name">Uganda Partners</div>
-        <div class="team-role">In Development</div>
-        <div class="team-bio">Actively building partnerships with Makerere University School of Public Health, Uganda Ministry of Health nutrition division, and District Health Officers for field validation, pilot study execution, and long-term deployment support across Uganda regions.</div>
-        <span class="team-badge">Makerere University SPH — in progress</span>
+        <div class="team-top">
+          <div class="team-av plus-av">+</div>
+          <div>
+            <div class="team-name">Uganda Partners</div>
+            <div class="team-role">In Development</div>
+          </div>
+        </div>
+        <div class="team-body">
+          <div class="team-bio">Actively building partnerships with Makerere University School of Public Health, Uganda Ministry of Health nutrition division, and District Health Officers for field validation, pilot study execution, and long-term deployment support.</div>
+          <span class="team-badge">Makerere University SPH &mdash; in progress</span>
+        </div>
       </div>
     </div>
   </div>
@@ -493,35 +816,35 @@ footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
 
 <!-- CONTACT -->
 <section id="contact" class="section alt">
-  <div class="container">
+  <div class="wrap">
     <div class="contact-grid">
       <div class="contact-left reveal">
         <h2>Partner with us to reach every child in Uganda</h2>
-        <p>XplainHealth is seeking research collaborators, institutional partners in Uganda, and funding to scale our tools to district level across three Uganda regions. If you work in global health, nutrition, AI for social good, or international development — we want to hear from you.</p>
+        <p>XplainHealth is seeking research collaborators, institutional partners in Uganda, and funding to scale our tools to district level across three Uganda regions. If you work in global health, nutrition, AI for social good, or international development &mdash; we want to hear from you.</p>
         <div class="collab-box">
-          <h4>🤝 We are open to</h4>
-          <p>Research partnerships · Uganda MoH and NGO collaborations · Grant co-applicants · Pilot study partners · UNICEF and WHO conversations · Conference invitations · Investor meetings</p>
+          <h4>&#129309; We are open to</h4>
+          <p>Research partnerships &middot; Uganda MoH and NGO collaborations &middot; Grant co-applicants &middot; Pilot study partners &middot; UNICEF and WHO conversations &middot; Conference invitations &middot; Investor meetings &middot; Speaking opportunities</p>
         </div>
       </div>
-      <div class="contact-links reveal" style="transition-delay:0.15s">
+      <div class="clinks reveal" style="transition-delay:0.15s">
         <a href="mailto:nuru.nabuuso@upf.edu" class="clink">
-          <div class="clink-icon">✉️</div>
+          <div class="clink-ico">&#9993;</div>
           <div><strong>Email the Founder</strong><span>nuru.nabuuso@upf.edu</span></div>
         </a>
         <a href="https://malnutrition-tool.streamlit.app" target="_blank" class="clink">
-          <div class="clink-icon">🔬</div>
+          <div class="clink-ico">&#128300;</div>
           <div><strong>Research Dashboard</strong><span>malnutrition-tool.streamlit.app</span></div>
         </a>
         <a href="https://nuru20.github.io/community-malnutrition-app" target="_blank" class="clink">
-          <div class="clink-icon">📱</div>
-          <div><strong>VHT Community App</strong><span>nuru20.github.io/community-malnutrition-app</span></div>
+          <div class="clink-ico">&#128241;</div>
+          <div><strong>Community Screening App</strong><span>nuru20.github.io/community-malnutrition-app</span></div>
         </a>
         <a href="https://github.com/Nuru20" target="_blank" class="clink">
-          <div class="clink-icon">⚡</div>
-          <div><strong>Source Code — GitHub</strong><span>github.com/Nuru20 — fully open source</span></div>
+          <div class="clink-ico">&#9889;</div>
+          <div><strong>Source Code &mdash; GitHub</strong><span>github.com/Nuru20 &mdash; fully open source</span></div>
         </a>
         <a href="https://Nuru20.github.io" target="_blank" class="clink">
-          <div class="clink-icon">👤</div>
+          <div class="clink-ico">&#128100;</div>
           <div><strong>Researcher Profile</strong><span>Nuru20.github.io</span></div>
         </a>
       </div>
@@ -542,8 +865,8 @@ footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
     <div class="footer-col">
       <h4>Tools</h4>
       <a href="https://malnutrition-tool.streamlit.app" target="_blank">Research Dashboard</a>
-      <a href="https://nuru20.github.io/community-malnutrition-app" target="_blank">VHT Community App</a>
-      <a href="https://github.com/Nuru20" target="_blank">GitHub — Open Source</a>
+      <a href="https://nuru20.github.io/community-malnutrition-app" target="_blank">Community App</a>
+      <a href="https://github.com/Nuru20" target="_blank">GitHub &mdash; Open Source</a>
     </div>
     <div class="footer-col">
       <h4>About</h4>
@@ -553,23 +876,22 @@ footer{background:var(--blue-dark);padding:2.8rem var(--gap)}
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 XplainHealth Ltd — Registered in Uganda</p>
-    <p>Open source · Built with AI model + SHAP · Uganda DHS </p>
+    <p>&copy; 2025 XplainHealth Ltd &mdash; Registered in Uganda</p>
+    <p>Open source &middot; XGBoost + SHAP &middot; Uganda DHS</p>
   </div>
 </footer>
 
 <script>
-const obs = new IntersectionObserver(es => {
-  es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
-}, {threshold:0.08});
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-const secs = document.querySelectorAll('section[id]');
-const navAs = document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll', () => {
-  let cur = '';
-  secs.forEach(s => { if(window.scrollY >= s.offsetTop - 80) cur = s.id; });
-  navAs.forEach(a => { a.style.color = a.getAttribute('href')==='#'+cur ? 'var(--blue)' : ''; });
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})
+},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+const secs=document.querySelectorAll('section[id]');
+const navAs=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-80)cur=s.id});
+  navAs.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+cur?'var(--g600)':''});
 });
 </script>
 </body>
